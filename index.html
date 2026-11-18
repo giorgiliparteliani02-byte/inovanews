@@ -35,12 +35,10 @@ body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 "Noto Sans Geor
 h1{font-size:1.6rem;font-weight:700;margin:0 0 4px;letter-spacing:-0.5px}
 .sub{color:var(--mu);margin:0 0 20px;font-size:0.95rem}
 
-/* ჰედერი + თემა */
 .header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
 .theme-btn{background:var(--sf);border:1px solid var(--bd);color:var(--tx);border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600;transition:var(--transition)}
 .theme-btn:hover{border-color:var(--ac)}
 
-/* პრემიუმ ნავიგაცია */
 nav{display:flex;gap:8px;margin:20px 0;background:var(--sf);padding:6px;border:1px solid var(--bd);border-radius:14px;box-shadow: var(--shadow);flex-wrap:wrap}
 nav button{background:transparent;color:var(--mu);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;transition: var(--transition)}
 nav button:hover{color:var(--tx);background:var(--bg)}
@@ -271,6 +269,7 @@ function loadState() {
 
 function renderCards() {
   const container = $("cards-container");
+  if (!container) return;
   let filtered = currentFilter === "all" ? state.db : state.db.filter(x => x.cat === currentFilter);
   
   if (searchQuery) {
@@ -305,51 +304,221 @@ function runCalculations() {
   const wVol = num(c.w_vol), wTin = num(c.w_tin), wTout = num(c.w_tout), wDays = num(c.w_days),
         wRec = num(c.w_rec), wEff = num(c.w_eff), wPrice = num(c.w_price), wCapex = num(c.w_capex);
   const heatEl = $("res-heat");
-  if ([wVol, wTin, wTout, wDays, wRec, wEff].some(v => v === null) || wTout <= wTin) {
-    heatEl.innerHTML = '<span class="mu">შეიყვანეთ ყველა საჭირო მონაცემი (ტემპერატურა უნდა გაიზარდოს).</span>';
-  } else {
-    const energyPerDay = wVol * 1.16 * (wTout - wTin);
-    const recoveredEnergy = energyPerDay * (wRec / 100) * wDays;
-    const gasSaved = recoveredEnergy / 9.5 / (wEff / 100);
-    const moneySaved = gasSaved * (wPrice || 0);
-    const payback = (wCapex && moneySaved > 0) ? (wCapex / moneySaved) : null;
+  if (heatEl) {
+    if ([wVol, wTin, wTout, wDays, wRec, wEff].some(v => v === null) || wTout <= wTin) {
+      heatEl.innerHTML = '<span class="mu">შეიყვანეთ ყველა საჭირო მონაცემი (ტემპერატურა უნდა გაიზარდოს).</span>';
+    } else {
+      const energyPerDay = wVol * 1.16 * (wTout - wTin);
+      const recoveredEnergy = energyPerDay * (wRec / 100) * wDays;
+      const gasSaved = recoveredEnergy / 9.5 / (wEff / 100);
+      const moneySaved = gasSaved * (wPrice || 0);
+      const payback = (wCapex && moneySaved > 0) ? (wCapex / moneySaved) : null;
 
-    heatEl.innerHTML = `
-      <div class="line">წლიური დაზოგილი ენერგია: <b>${fmt(recoveredEnergy, 0)} კვტ·სთ</b></div>
-      <div class="line">დაზოგილი გაზი: <b>${fmt(gasSaved, 0)} მ³</b></div>
-      <div class="line">წლიური დანაზოგი: <b>${fmt(moneySaved, 0)} ₾</b></div>
-      <div class="line">ინვესტიციის ამოგების ვადა: <b>${payback ? fmt(payback, 1) + " წელი" : "—"}</b></div>
-    `;
+      heatEl.innerHTML = `
+        <div class="line">წლიური დაზოგილი ენერგია: <b>${fmt(recoveredEnergy, 0)} კვტ·სთ</b></div>
+        <div class="line">დაზოგილი გაზი: <b>${fmt(gasSaved, 0)} მ³</b></div>
+        <div class="line">წლიური დანაზოგი: <b>${fmt(moneySaved, 0)} ₾</b></div>
+        <div class="line">ინვესტიციის ამოგების ვადა: <b>${payback ? fmt(payback, 1) + " წელი" : "—"}</b></div>
+      `;
+    }
   }
 
   // 2. ძრავები
   const mKw = num(c.m_kw), mLoad = num(c.m_load), mHrs = num(c.m_hrs), mSav = num(c.m_sav),
         mPrice = num(c.m_price), mCapex = num(c.m_capex);
   const motorEl = $("res-motor");
-  if ([mKw, mLoad, mHrs, mSav].some(v => v === null)) {
-    motorEl.innerHTML = '<span class="mu">შეიყვანეთ მონაცემები გათვლისთვის.</span>';
-  } else {
-    const yearlyKwh = mKw * (mLoad / 100) * mHrs;
-    const savedKwh = yearlyKwh * (mSav / 100);
-    const moneySaved = savedKwh * (mPrice || 0);
-    const payback = (mCapex && moneySaved > 0) ? (mCapex / moneySaved) : null;
+  if (motorEl) {
+    if ([mKw, mLoad, mHrs, mSav].some(v => v === null)) {
+      motorEl.innerHTML = '<span class="mu">შეიყვანეთ მონაცემები გათვლისთვის.</span>';
+    } else {
+      const yearlyKwh = mKw * (mLoad / 100) * mHrs;
+      const savedKwh = yearlyKwh * (mSav / 100);
+      const moneySaved = savedKwh * (mPrice || 0);
+      const payback = (mCapex && moneySaved > 0) ? (mCapex / moneySaved) : null;
 
-    motorEl.innerHTML = `
-      <div class="line">წლიური მოხმარება (ბაზისური): <b>${fmt(yearlyKwh, 0)} კვტ·სთ</b></div>
-      <div class="line">დაზოგილი ენერგია: <b>${fmt(savedKwh, 0)} კვტ·სთ</b></div>
-      <div class="line">წლიური დანაზოგი: <b>${fmt(moneySaved, 0)} ₾</b></div>
-      <div class="line">ინვესტიციის ამოგების ვადა: <b>${payback ? fmt(payback, 1) + " წელი" : "—"}</b></div>
-    `;
+      motorEl.innerHTML = `
+        <div class="line">წლიური მოხმარება (ბაზისური): <b>${fmt(yearlyKwh, 0)} კვტ·სთ</b></div>
+        <div class="line">დაზოგილი ენერგია: <b>${fmt(savedKwh, 0)} კვტ·სთ</b></div>
+        <div class="line">წლიური დანაზოგი: <b>${fmt(moneySaved, 0)} ₾</b></div>
+        <div class="line">ინვესტიციის ამოგების ვადა: <b>${payback ? fmt(payback, 1) + " წელი" : "—"}</b></div>
+      `;
+    }
   }
 
   // 3. საკვები
   const fVol = num(c.f_vol), fDays = num(c.f_days), fCur = num(c.f_cur), fNew = num(c.f_new),
         fCost = num(c.f_cost), fCapex = num(c.f_capex);
   const foodEl = $("res-food");
-  if ([fVol, fDays, fCur, fNew, fCost].some(v => v === null) || fNew >= fCur) {
-    foodEl.innerHTML = '<span class="mu">შეიყვანეთ მონაცემები (სამიზნე წუნი უფრო დაბალი უნდა იყოს).</span>';
-  } else {
-    const yearlyProd = fVol * fDays;
-    const reducedLossKg = yearlyProd * ((fCur - fNew) / 100);
-    const moneySaved = reducedLossKg * fCost;
-    const payback = (fCapex && moneySaved > 0) ? (fCap
+  if (foodEl) {
+    if ([fVol, fDays, fCur, fNew, fCost].some(v => v === null) || fNew >= fCur) {
+      foodEl.innerHTML = '<span class="mu">შეიყვანეთ მონაცემები (სამიზნე წუნი უფრო დაბალი უნდა იყოს).</span>';
+    } else {
+      const yearlyProd = fVol * fDays;
+      const reducedLossKg = yearlyProd * ((fCur - fNew) / 100);
+      const moneySaved = reducedLossKg * fCost;
+      const payback = (fCapex && moneySaved > 0) ? (fCapex / moneySaved) : null;
+
+      foodEl.innerHTML = `
+        <div class="line">წლიური წარმოება: <b>${fmt(yearlyProd, 0)} კგ</b></div>
+        <div class="line">შემცირებული წუნი: <b>${fmt(reducedLossKg, 0)} კგ</b></div>
+        <div class="line">წლიური დანაზოგი: <b>${fmt(moneySaved, 0)} ₾</b></div>
+        <div class="line">ინვესტიციის ამოგების ვადა: <b>${payback ? fmt(payback, 1) + " წელი" : "—"}</b></div>
+      `;
+    }
+  }
+}
+
+function initInputs() {
+  document.querySelectorAll("[data-calc]").forEach(input => {
+    const key = input.getAttribute("data-calc");
+    if (state.calc[key] !== undefined) {
+      input.value = state.calc[key];
+    }
+    input.addEventListener("input", e => {
+      state.calc[key] = e.target.value;
+      runCalculations();
+      saveState();
+    });
+  });
+
+  document.querySelectorAll("[data-note]").forEach(textarea => {
+    const key = textarea.getAttribute("data-note");
+    if (state.notes[key] !== undefined) {
+      textarea.value = state.notes[key];
+    }
+    textarea.addEventListener("input", e => {
+      state.notes[key] = e.target.value;
+      saveState();
+    });
+  });
+}
+
+// EventListeners
+document.addEventListener("DOMContentLoaded", () => {
+  loadState();
+  renderCards();
+  runCalculations();
+  initInputs();
+
+  // Theme toggle
+  const themeBtn = $("theme-btn");
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const isDark = document.body.getAttribute("data-theme") === "dark";
+      document.body.setAttribute("data-theme", isDark ? "" : "dark");
+      themeBtn.textContent = isDark ? "🌙 მუქი" : "☀️ ღია";
+    });
+  }
+
+  // Navigation tabs
+  document.querySelectorAll("#nav button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#nav button").forEach(b => b.classList.remove("on"));
+      document.querySelectorAll(".sec").forEach(s => s.classList.remove("on"));
+      btn.classList.add("on");
+      const target = btn.getAttribute("data-t");
+      const sec = $(target);
+      if (sec) sec.classList.add("on");
+    });
+  });
+
+  // Filters
+  document.querySelectorAll("#filters button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.getAttribute("data-f");
+      renderCards();
+    });
+  });
+
+  // Search
+  const searchInput = $("search");
+  if (searchInput) {
+    searchInput.addEventListener("input", e => {
+      searchQuery = e.target.value;
+      renderCards();
+    });
+  }
+
+  // Fill examples
+  document.querySelectorAll("[data-fill]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const type = btn.getAttribute("data-fill");
+      const data = EXAMPLES[type];
+      if (!data) return;
+      Object.keys(data).forEach(k => {
+        state.calc[k] = data[k];
+        const inp = document.querySelector(`[data-calc="${k}"]`);
+        if (inp) inp.value = data[k];
+      });
+      runCalculations();
+      saveState();
+    });
+  });
+
+  // Add card
+  const addBtn = $("add-btn");
+  if (addBtn) {
+    addBtn.addEventListener("click", () => {
+      const cat = $("ncat").value;
+      const title = $("ntitle").value.trim();
+      const key = $("nkey").value.trim();
+      const desc = $("ndesc").value.trim();
+
+      if (!title || !desc) {
+        alert("გთხოვთ შეავსოთ სათაური და აღწერა!");
+        return;
+      }
+
+      state.db.unshift({ cat, title, key, desc });
+      saveState();
+      renderCards();
+
+      $("ntitle").value = "";
+      $("nkey").value = "";
+      $("ndesc").value = "";
+    });
+  }
+
+  // Delete card delegation
+  document.addEventListener("click", e => {
+    if (e.target && e.target.getAttribute("data-del") !== null) {
+      const idx = parseInt(e.target.getAttribute("data-del"));
+      if (!isNaN(idx)) {
+        state.db.splice(idx, 1);
+        saveState();
+        renderCards();
+      }
+    }
+  });
+
+  // Export notes
+  const exportBtn = $("export-btn");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", () => {
+      let text = "=== საწარმოო სამუშაო გეგმა ===\n\n";
+      const labels = {
+        cooling_note: "1. გათბობა-გაციების სისტემები",
+        motors_note: "2. ელექტროძრავები და ამძრავები",
+        maint_note: "3. ავარიული დანადგარების მოდერნიზაცია",
+        conv_note: "4. კონვეიერები და ტრანსპორტირების სისტემები",
+        food_note: "5. დამპლინგების და სალათების დანადგარები"
+      };
+      Object.keys(labels).forEach(k => {
+        text += `${labels[k]}\n${state.notes[k] || "—"}\n\n`;
+      });
+
+      const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "factory_plan.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+});
+</script>
+</body>
+</html>
