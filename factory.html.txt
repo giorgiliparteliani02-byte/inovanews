@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>საწარმოო ინოვაციებისა და ტექნოლოგიების სამუშაო სივრცე</title>
+<style>
+:root{
+  --bg:#f8f9fa;
+  --sf:#ffffff;
+  --tx:#212529;
+  --mu:#6c757d;
+  --bd:#e9ecef;
+  --ac:#d94e24;
+  --ac2:#fdf2ef;
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"]{
+  --bg:#121212;
+  --sf:#1e1e1e;
+  --tx:#f8f9fa;
+  --mu:#a0a0a0;
+  --bd:#2c2c2c;
+  --ac:#ff6b4a;
+  --ac2:#2d1e1a;
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 "Noto Sans Georgian",system-ui,-apple-system,sans-serif;transition: background 0.3s, color 0.3s}
+.w{max-width:1000px;margin:0 auto;padding:24px 16px}
+
+h1{font-size:1.6rem;font-weight:700;margin:0 0 4px;letter-spacing:-0.5px}
+.sub{color:var(--mu);margin:0 0 20px;font-size:0.95rem}
+
+/* ჰედერი + თემა */
+.header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.theme-btn{background:var(--sf);border:1px solid var(--bd);color:var(--tx);border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600;transition:var(--transition)}
+.theme-btn:hover{border-color:var(--ac)}
+
+/* პრემიუმ ნავიგაცია */
+nav{display:flex;gap:8px;margin:20px 0;background:var(--sf);padding:6px;border:1px solid var(--bd);border-radius:14px;box-shadow: var(--shadow);flex-wrap:wrap}
+nav button{background:transparent;color:var(--mu);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;transition: var(--transition)}
+nav button:hover{color:var(--tx);background:var(--bg)}
+nav button.on{background:var(--ac);color:#fff;box-shadow: 0 4px 12px rgba(217, 78, 36, 0.3)}
+
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;margin:16px 0;box-shadow: var(--shadow);transition: var(--transition)}
+.card:hover{border-color: rgba(217, 78, 36, 0.3)}
+.card h3{margin:0 0 8px;font-size:1.15rem;color:var(--ac);font-weight:600}
+
+.k{display:inline-block;background:var(--ac2);color:var(--ac);border-radius:8px;padding:4px 10px;font-size:0.85rem;font-weight:600;margin:6px 0}
+.mu{color:var(--mu);font-size:0.9rem}
+
+label{display:block;font-size:0.88rem;color:var(--mu);margin:10px 0 4px;font-weight:500}
+input,textarea,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;transition: var(--transition)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ac);box-shadow: 0 0 0 3px var(--ac2)}
+textarea{min-height:80px;resize:vertical}
+
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;margin-top:12px;transition: var(--transition);box-shadow: 0 4px 12px rgba(217, 78, 36, 0.2)}
+.btn:hover{filter: brightness(1.1);transform: translateY(-1px)}
+.btn-outline{background:transparent;color:var(--ac);border:1px solid var(--ac);box-shadow:none}
+.btn-outline:hover{background:var(--ac2)}
+
+.sec{display:none;opacity:0;transform: translateY(15px);transition: opacity 0.4s ease, transform 0.4s ease}
+.sec.on{display:block;animation: slideUpFade 0.4s forwards}
+
+@keyframes slideUpFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tag-filter{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tag-filter button{background:var(--sf);border:1px solid var(--bd);color:var(--mu);padding:6px 14px;border-radius:8px;font-size:0.88rem;font-weight:500;cursor:pointer;transition: var(--transition)}
+.tag-filter button:hover{border-color:var(--ac);color:var(--tx)}
+.tag-filter button.active{background:var(--ac2);color:var(--ac);border-color:var(--ac);font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.res{background:var(--ac2);border: 1px solid rgba(217, 78, 36, 0.15);border-radius:12px;padding:16px;margin-top:16px;font-size:0.95rem}
+.res b{color:var(--ac);font-size:1.1rem}
+.x{float:right;background:none;border:0;color:var(--mu);cursor:pointer;font-size:1.2rem;transition: var(--transition)}
+.x:hover{color:var(--ac)}
+.res .line{margin:6px 0}
+
+.search-box{margin-bottom:16px}
+.search-box input{max-width:320px}
+
+.actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="header-row">
+    <div>
+      <h1>🏭 საწარმოო ინოვაციებისა და ტექნოლოგიების მონიტორინგი</h1>
+      <p class="sub">გათბობა-გაციება, ელექტროძრავები, ავარიული დანადგარები, კონვეიერები, დამპლინგები/სალათები და ოპტიმიზებული ხაზები.</p>
+    </div>
+    <button class="theme-btn" id="theme-btn">🌙 მუქი</button>
+  </div>
+
+  <nav id="nav">
+    <button data-t="s1" class="on">1. ბაზა და ქეისები</button>
+    <button data-t="s2">2. საინჟინრო გათვლები</button>
+    <button data-t="s3">3. ჩემი საწარმოს გეგმა</button>
+  </nav>
+
+  <!-- სექცია 1 -->
+  <section class="sec on" id="s1">
+    <div class="search-box">
+      <input type="search" id="search" placeholder="ძებნა სათაურში ან აღწერაში...">
+    </div>
+
+    <div class="tag-filter" id="filters">
+      <button class="active" data-f="all">ყველა</button>
+      <button data-f="cooling">გათბობა-გაციება</button>
+      <button data-f="motors">ელექტროძრავები</button>
+      <button data-f="maintenance">ავარიული/პრევენცია</button>
+      <button data-f="conveyors">კონვეიერები</button>
+      <button data-f="foodline">დამპლინგები & სალათები</button>
+      <button data-f="hitech">მაღალტექნოლოგიური ქარხნები</button>
+    </div>
+
+    <div id="cards-container"></div>
+
+    <div class="card">
+      <h3>ახალი ქეისის ან მონაცემის დამატება</h3>
+      <label>კატეგორია</label>
+      <select id="ncat">
+        <option value="cooling">გათბობა-გაციება</option>
+        <option value="motors">ელექტროძრავები</option>
+        <option value="maintenance">ავარიული / მოდერნიზაცია</option>
+        <option value="conveyors">კონვეიერები და ტრანსპორტირება</option>
+        <option value="foodline">დამპლინგები & სალათები</option>
+        <option value="hitech">მაღალტექნოლოგიური ქარხნები</option>
+      </select>
+      <label>სათაური / ქარხანა</label><input id="ntitle" placeholder="მაგ. კომპრესორების სითბოს რეკუპერაცია">
+      <label>მთავარი შედეგი / ციფრი</label><input id="nkey" placeholder="მაგ. 25% ნაკლები ენერგიახარჯი">
+      <label>აღწერა / ტექნოლოგიური დეტალები</label><textarea id="ndesc" placeholder="როგორ განხორციელდა, რა ტექნოლოგია ჩაიდგა..."></textarea>
+      <button class="btn" id="add-btn">დამატება ბაზაში</button>
+    </div>
+  </section>
+
+  <!-- სექცია 2 -->
+  <section class="sec" id="s2">
+    <!-- 1. სითბოს რეკუპერაცია -->
+    <div class="card">
+      <h3>🔥 1. სითბოს რეკუპერაცია (გაციების სისტემიდან ცხელი წყალი)</h3>
+      <p class="mu">ითვლის ქვაბზე დაზოგილ ბუნებრივ აირს და ინვესტიციის ამოგების ვადას (1 მ³ გაზი ≈ 9.5 კვტ·სთ).</p>
+      <div class="grid">
+        <div><label>ცხელი წყლის მოხმარება (მ³/დღე)</label><input data-calc="w_vol" type="number" min="0" step="0.1" placeholder="მაგ. 40"></div>
+        <div><label>შემომავალი წყლის ტემპ. (°C)</label><input data-calc="w_tin" type="number" placeholder="მაგ. 15"></div>
+        <div><label>საჭირო ტემპერატურა (°C)</label><input data-calc="w_tout" type="number" placeholder="მაგ. 55"></div>
+        <div><label>სამუშაო დღე წელიწადში</label><input data-calc="w_days" type="number" min="0" placeholder="მაგ. 300"></div>
+        <div><label>რეკუპერაციით დაფარვა (%)</label><input data-calc="w_rec" type="number" min="0" max="100" placeholder="მაგ. 50"></div>
+        <div><label>ქვაბის მქკ (%)</label><input data-calc="w_eff" type="number" min="1" max="100" placeholder="მაგ. 85"></div>
+        <div><label>გაზის ტარიფი (₾/მ³)</label><input data-calc="w_price" type="number" step="0.01" min="0" placeholder="მაგ. 1.35"></div>
+        <div><label>საინვესტიციო ხარჯი (₾)</label><input data-calc="w_capex" type="number" min="0" placeholder="მაგ. 45000"></div>
+      </div>
+      <div class="actions-row">
+        <button class="btn btn-outline" data-fill="heat">შევსება მაგალითით</button>
+      </div>
+      <div class="res" id="res-heat"><span class="mu">შეიყვანეთ მონაცემები გათვლისთვის.</span></div>
+    </div>
+
+    <!-- 2. ელექტროძრავები -->
+    <div class="card">
+      <h3>⚡ 2. ელექტროძრავები და სიხშირული გარდამქმნელები (VFD)</h3>
+      <p class="mu">ითვლის ძველი ძრავების განახლებით ან სიხშირული რეგულირებით დაზოგილ ელექტროენერგიას.</p>
+      <div class="grid">
+        <div><label>ძრავების ჯამური სიმძლავრე (კვტ)</label><input data-calc="m_kw" type="number" min="0" placeholder="მაგ. 75"></div>
+        <div><label>საშუალო დატვირთვა (%)</label><input data-calc="m_load" type="number" min="1" max="100" placeholder="მაგ. 80"></div>
+        <div><label>მუშაობის საათები წელიწადში</label><input data-calc="m_hrs" type="number" min="0" placeholder="მაგ. 6000"></div>
+        <div><label>მოსალოდნელი ეკონომია (%)</label><input data-calc="m_sav" type="number" min="1" max="60" placeholder="მაგ. 18"></div>
+        <div><label>ელ. ენერგიის ტარიფი (₾/კვტ·სთ)</label><input data-calc="m_price" type="number" step="0.01" min="0" placeholder="მაგ. 0.35"></div>
+        <div><label>მოდერნიზაციის ხარჯი (₾)</label><input data-calc="m_capex" type="number" min="0" placeholder="მაგ. 20000"></div>
+      </div>
+      <div class="actions-row">
+        <button class="btn btn-outline" data-fill="motor">შევსება მაგალითით</button>
+      </div>
+      <div class="res" id="res-motor"><span class="mu">შეიყვანეთ მონაცემები გათვლისთვის.</span></div>
+    </div>
+
+    <!-- 3. დამპლინგები / სალათები -->
+    <div class="card">
+      <h3>🥟 3. დამპლინგებისა და სალათების ხაზების დანაკარგების შემცირება</h3>
+      <p class="mu">ითვლის დოზირებისა და ტრანსპორტირების ოპტიმიზაციით შემცირებული ნედლეულის წუნის ეფექტს.</p>
+      <div class="grid">
+        <div><label>წარმოების მოცულობა (კგ/დღე)</label><input data-calc="f_vol" type="number" min="0" placeholder="მაგ. 5000"></div>
+        <div><label>სამუშაო დღე წელიწადში</label><input data-calc="f_days" type="number" min="0" placeholder="მაგ. 300"></div>
+        <div><label>ამჟამინდელი წუნი / დანაკარგი (%)</label><input data-calc="f_cur" type="number" step="0.1" min="0" max="100" placeholder="მაგ. 3.5"></div>
+        <div><label>სამიზნე წუნი განახლების შემდეგ (%)</label><input data-calc="f_new" type="number" step="0.1" min="0" max="100" placeholder="მაგ. 1.0"></div>
+        <div><label>ნედლეულის საშუალო თვითღირებულება (₾/კგ)</label><input data-calc="f_cost" type="number" step="0.1" min="0" placeholder="მაგ. 6.5"></div>
+        <div><label>ხაზის მოდერნიზაციის ხარჯი (₾)</label><input data-calc="f_capex" type="number" min="0" placeholder="მაგ. 60000"></div>
+      </div>
+      <div class="actions-row">
+        <button class="btn btn-outline" data-fill="food">შევსება მაგალითით</button>
+      </div>
+      <div class="res" id="res-food"><span class="mu">შეიყვანეთ მონაცემები გათვლისთვის.</span></div>
+    </div>
+  </section>
+
+  <!-- სექცია 3 -->
+  <section class="sec" id="s3">
+    <div class="card">
+      <h3>ჩვენი საწარმოს სამუშაო გეგმა მიმართულებების მიხედვით</h3>
+      <p class="mu">ყველა ჩანაწერი ავტომატურად ინახება ბრაუზერში.</p>
+      
+      <label>1. გათბობა-გაციების სისტემები</label>
+      <textarea data-note="cooling_note" placeholder="აღწერეთ არსებული მდგომარეობა და გეგმა..."></textarea>
+
+      <label>2. ელექტროძრავები და ამძრავები</label>
+      <textarea data-note="motors_note" placeholder="რომელი ძრავები საჭიროებს შეცვლას ან რეგულირებას..."></textarea>
+
+      <label>3. ავარიული დანადგარების მოდერნიზაცია</label>
+      <textarea data-note="maint_note" placeholder="პრობლემური კვანძები და სენსორების საჭიროება..."></textarea>
+
+      <label>4. კონვეიერები და ტრანსპორტირების სისტემები</label>
+      <textarea data-note="conv_note" placeholder="ხაზების ოპტიმიზაცია, სიჩქარეები, რეცხვის სიმარტივე..."></textarea>
+
+      <label>5. დამპლინგების და სალათების დანადგარები</label>
+      <textarea data-note="food_note" placeholder="ნედლეულის წუნი, დოზირების სიზუსტე..."></textarea>
+
+      <div class="actions-row" style="margin-top:20px">
+        <button class="btn" id="export-btn">ჩამოტვირთვა (ტექსტი)</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const SEED = [
+  {cat: "cooling", title: "Gundagai Meat Processors (ავსტრალია)", key: "≈30% ნაკლები გაზი", desc: "კონდენსატორებისა და კომპრესორის ზეთის გამაგრილებლების სითბო გამოიყენება ქვაბის წყლის წინასწარ გასათბობად (15°C-დან 50°C-მდე)."},
+  {cat: "cooling", title: "Maple Leaf Foods (კანადა)", key: "600,000+ მ³ გაზი წელიწადში", desc: "ამიაკის გაციების სისტემაზე დამონტაჟდა დესუპერჰიტერი ნარჩენი სითბოს ასათვისებლად."},
+  {cat: "motors", title: "IE4/IE5 კლასის ძრავები და VFD ინტეგრაცია", key: "15-20% ელექტროენერგიის დანაზოგი", desc: "მუდმივი ბრუნვის ნაცვლად სიხშირული გარდამქმნელების (VFD) გამოყენება ტუმბოებსა და ვენტილატორებზე."},
+  {cat: "maintenance", title: "Predictive Maintenance (IoT ვიბრაციის სენსორები)", key: "ავარიული გაჩერებების შემცირება 70%-ით", desc: "ძრავებისა და საკისრების ტემპერატურისა და ვიბრაციის ონლაინ მონიტორინგი გაფუჭებამდე თვითდიაგნოსტიკისთვის."},
+  {cat: "conveyors", title: "Modular Hygienic Conveyors", key: "სანიტარული დამუშავების დრო შემცირდა 40%-ით", desc: "უჟანგავი ფოლადისა და სწრაფად მოსახსნელი ლენტების სისტემები კვების ხაზებისთვის."},
+  {cat: "foodline", title: "ავტომატური დოზირების ხაზები (დამპლინგები / ხინკალი)", key: "ნედლეულის დანაკარგი < 1%", desc: "ცომისა და ფარშის ზუსტი ვოლუმეტრიული დოზირება, რაც ამცირებს წუნსა და პროდუქტის ნარჩენს."},
+  {cat: "foodline", title: "სალათების რეცხვა-შრობისა და MAP შეფუთვის ხაზები", key: "შენახვის ვადის ზრდა +5-7 დღე", desc: "ოპტიკური სორტირება და მოდიფიცირებულ ატმოსფეროში შეფუთვა პროდუქტის დაზიანების გარეშე."},
+  {cat: "hitech", title: "Fully Automated Smart Food Plant", key: "ოპერაციული ხარჯების ოპტიმიზაცია", desc: "სრული ინტეგრაცია ERP სისტემასთან, ავტომატიზებული ტრანსპორტირება და მინიმალური ადამიანური ჩარევა ხაზებზე."}
+];
+
+const EXAMPLES = {
+  heat: { w_vol: 40, w_tin: 15, w_tout: 55, w_days: 300, w_rec: 50, w_eff: 85, w_price: 1.35, w_capex: 45000 },
+  motor: { m_kw: 75, m_load: 80, m_hrs: 6000, m_sav: 18, m_price: 0.35, m_capex: 20000 },
+  food: { f_vol: 5000, f_days: 300, f_cur: 3.5, f_new: 1.0, f_cost: 6.5, f_capex: 60000 }
+};
+
+let state = { db: [...SEED], calc: {}, notes: {} };
+let currentFilter = "all";
+let searchQuery = "";
+
+const $ = id => document.getElementById(id);
+const num = v => { const x = parseFloat(v); return isNaN(x) ? null : x; };
+const fmt = (x, d = 0) => (x == null || isNaN(x)) ? "—" : x.toLocaleString("ka-GE", { maximumFractionDigits: d });
+
+function saveState() {
+  try { localStorage.setItem("factory_platform_v2", JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem("factory_platform_v2");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.db && Array.isArray(parsed.db)) state.db = parsed.db;
+      if (parsed.calc) state.calc = parsed.calc;
+      if (parsed.notes) state.notes = parsed.notes;
+    }
+  } catch(e) {}
+}
+
+function renderCards() {
+  const container = $("cards-container");
+  let filtered = currentFilter === "all" ? state.db : state.db.filter(x => x.cat === currentFilter);
+  
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(x => 
+      (x.title + " " + x.desc + " " + (x.key || "")).toLowerCase().includes(q)
+    );
+  }
+
+  if (!filtered.length) {
+    container.innerHTML = '<p class="mu">ჩანაწერები ვერ მოიძებნა.</p>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(item => {
+    const realIndex = state.db.indexOf(item);
+    return `
+      <div class="card">
+        <button class="x" data-del="${realIndex}" title="წაშლა">×</button>
+        <h3>${item.title}</h3>
+        ${item.key ? `<span class="k">${item.key}</span>` : ""}
+        <p style="margin:8px 0 0">${item.desc}</p>
+      </div>
+    `;
+  }).join("");
+}
+
+function runCalculations() {
+  const c = state.calc;
+
+  // 1. სითბო
+  const wVol = num(c.w_vol), wTin = num(c.w_tin), wTout = num(c.w_tout), wDays = num(c.w_days),
+        wRec = num(c.w_rec), wEff = num(c.w_eff), wPrice = num(c.w_price), wCapex = num(c.w_capex);
+  const heatEl = $("res-heat");
+  if ([wVol, wTin, wTout, wDays, wRec, wEff].some(v => v === null) || wTout <= wTin) {
+    heatEl.innerHTML = '<span class="mu">შეიყვანეთ ყველა საჭირო მონაცემი (ტემპერატურა უნდა გაიზარდოს).</span>';
+  } else {
+    const energyPerDay = wVol * 1.16 * (wTout - wTin);
+    const recoveredEnergy = energyPerDay * (wRec / 100) * wDays;
+    const gasSaved = recoveredEnergy / 9.5 / (wEff / 100);
+    const moneySaved = gasSaved * (wPrice || 0);
+    const payback = (wCapex && moneySaved > 0) ? (wCapex / moneySaved) : null;
+
+    heatEl.innerHTML = `
+      <div class="line">წლიური დაზოგილი ენერგია: <b>${fmt(recoveredEnergy, 0)} კვტ·სთ</b></div>
+      <div class="line">დაზოგილი გაზი: <b>${fmt(gasSaved, 0)} მ³</b></div>
+      <div class="line">წლიური დანაზოგი: <b>${fmt(moneySaved, 0)} ₾</b></div>
+      <div class="line">ინვესტიციის ამოგების ვადა: <b>${payback ? fmt(payback, 1) + " წელი" : "—"}</b></div>
+    `;
+  }
+
+  // 2. ძრავები
+  const mKw = num(c.m_kw), mLoad = num(c.m_load), mHrs = num(c.m_hrs), mSav = num(c.m_sav),
+        mPrice = num(c.m_price), mCapex = num(c.m_capex);
+  const motorEl = $("res-motor");
+  if ([mKw, mLoad, mHrs, mSav].some(v => v === null)) {
+    motorEl.innerHTML = '<span class="mu">შეიყვანეთ მონაცემები გათვლისთვის.</span>';
+  } else {
+    const yearlyKwh = mKw * (mLoad / 100) * mHrs;
+    const savedKwh = yearlyKwh * (mSav / 100);
+    const moneySaved = savedKwh * (mPrice || 0);
+    const payback = (mCapex && moneySaved > 0) ? (mCapex / moneySaved) : null;
+
+    motorEl.innerHTML = `
+      <div class="line">წლიური მოხმარება (ბაზისური): <b>${fmt(yearlyKwh, 0)} კვტ·სთ</b></div>
+      <div class="line">დაზოგილი ენერგია: <b>${fmt(savedKwh, 0)} კვტ·სთ</b></div>
+      <div class="line">წლიური დანაზოგი: <b>${fmt(moneySaved, 0)} ₾</b></div>
+      <div class="line">ინვესტიციის ამოგების ვადა: <b>${payback ? fmt(payback, 1) + " წელი" : "—"}</b></div>
+    `;
+  }
+
+  // 3. საკვები
+  const fVol = num(c.f_vol), fDays = num(c.f_days), fCur = num(c.f_cur), fNew = num(c.f_new),
+        fCost = num(c.f_cost), fCapex = num(c.f_capex);
+  const foodEl = $("res-food");
+  if ([fVol, fDays, fCur, fNew, fCost].some(v => v === null) || fNew >= fCur) {
+    foodEl.innerHTML = '<span class="mu">შეიყვანეთ მონაცემები (სამიზნე წუნი უფრო დაბალი უნდა იყოს).</span>';
+  } else {
+    const yearlyProd = fVol * fDays;
+    const reducedLossKg = yearlyProd * ((fCur - fNew) / 100);
+    const moneySaved = reducedLossKg * fCost;
+    const payback = (fCapex && moneySaved > 0) ? (fCap
